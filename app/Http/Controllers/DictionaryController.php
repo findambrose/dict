@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facade\Http;
 use App\Models\User;
 use AfricasTalking\SDK\AfricasTalking;
 
@@ -202,5 +203,38 @@ function sendSMS($message, $phone){
       echo 'END'.$menuResponse ;
     }
 
+    function getMeaning($searchTerm){
+     //Get word meaning using Oxford dixtionary api
+      $apiKey = 'f01ae30e9ec36e96fbde8b6c5304e1b0';
+      $appId = 'bc6fd222';
+      $url = 'https://od-api.oxforddictionaries.com/api/v2/entries/en/'.$searchTerm;
+      $response = Http::withHeaders(
+        ['app_id' => $appId,
+	       'app_key' => $apiKey
+        ]
+        )->get($url);
 
+      $resultObject = json_decode($response->body());
+      $myResults =  $resultObject->results;
+      $entriesObj =  $myResults[0]->lexicalEntries[0]->entries[0];
+      $pronounciation = $entriesObj->pronounciations[0]->phoneticSpelling;
+      $meaning = $entriesObj->senses[0]->definitions[0];
+      $example = $entriesObj->senses[0]->examples[0]->text;
+      $synonymsListofObjects = $entriesObj->senses[0]->synonyms; //loop through synonyms to get individual objects
+      $synonymsString = "";
+      if (!empty($synonymsListofObjects)) {
+        $counter = 0;
+        foreach ($synonymsListofObjects as $value) {
+          $synonymsString .= $value->text.", ";
+          if (count($synonymsListofObjects) == ++$counter) {
+            // Append a full stop on the last value
+            $synonymsString .= $value->text.".";
+          }
+        }
+      }
+
+      $responseToUser =  "1. Meaning: ".$meaning.". \n";
+      $responseToUser .= "2. Pronounciation: ".$pronounciation.". \n";
+      $responseToUser .= "3. Synonyms: ".$synonymsString." \n";
+    }
 }
