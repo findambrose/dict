@@ -111,7 +111,7 @@
                         <div class="row">
                             <div class="col-lg-10 col-md-10">
                                 <div class="section-tittle">
-                                    <h2>Some of the best features Of Our App!</h2>
+                                    <h2>Why you'll love the app</h2>
                                 </div>
                             </div>
                         </div>
@@ -123,8 +123,8 @@
                                         <span class="flaticon-support"></span>
                                     </div>
                                     <div class="features-caption">
-                                        <h3>Easy to Costomize</h3>
-                                        <p>Aorem psum olorsit amet ectetur adipiscing elit, sed dov.</p>
+                                        <h3>Easy to search</h3>
+                                        <p>We have made the searching process as easy as possible.</p>
                                     </div>
                                 </div>
                             </div>
@@ -134,8 +134,8 @@
                                         <span class="flaticon-support"></span>
                                     </div>
                                     <div class="features-caption">
-                                        <h3>Extreme Security</h3>
-                                        <p>Aorem psum olorsit amet ectetur adipiscing elit, sed dov.</p>
+                                        <h3>Privacy</h3>
+                                        <p>Your data is stored safely and never shared with third parties.</p>
                                     </div>
                                 </div>
                             </div>
@@ -145,8 +145,8 @@
                                         <span class="flaticon-support"></span>
                                     </div>
                                     <div class="features-caption">
-                                        <h3>Customer Support</h3>
-                                        <p>Aorem psum olorsit amet ectetur adipiscing elit, sed dov.</p>
+                                        <h3>More than just a meaning</h3>
+                                        <p>Through Maana, you get to see the word's pronunciation as well.</p>
                                     </div>
                                 </div>
                             </div>
@@ -156,8 +156,8 @@
                                         <span class="flaticon-support"></span>
                                     </div>
                                     <div class="features-caption">
-                                        <h3>Creative Design</h3>
-                                        <p>Aorem psum olorsit amet ectetur adipiscing elit, sed dov.</p>
+                                        <h3>Constantly developed</h3>
+                                        <p>We are constantly working on more features to add to the app</p>
                                     </div>
                                 </div>
                             </div>
@@ -179,8 +179,8 @@
                     <!-- slider Heading -->
                     <div class="col-xl-4 col-lg-4 col-md-8">
                         <div class="single-cases-info mb-30">
-                            <h3>Applic Apps<br> Screenshot</h3>
-                            <p>Lorem ipsum dolor sit amet, consecadipiscing elit, sed do eiusmod tempor incididunt ut ore et dolore magna aliqua. Quis ipsum suspendisse gravida. Risus commodo viverra maecenasan lacus vel facilisis. </p>
+                            <h3>Maana<br> Screenshots</h3>
+                            <p>These are the application screenshots.</p>
                         </div>
                     </div>
                     <!-- OwL -->
@@ -215,12 +215,12 @@
                 <div class="row justify-content-between align-items-center">
                     <div class="offset-xl-1 offset-lg-1 col-xl-5 col-lg-5">
                         <div class="say-something-cap">
-                            <h2>Say Hello To The Collaboration Hub.</h2>
+                            <h2>Contact the team behind Maana</h2>
                         </div>
                     </div>
                     <div class="col-xl-2 col-lg-3">
                         <div class="say-btn">
-                            <a href="#" class="btn radius-btn">Contact Us</a>
+                            <a data-toggle = "modal" data-target = "#contactModal" class="btn radius-btn">Contact Us</a>
                         </div>
                     </div>
                 </div>

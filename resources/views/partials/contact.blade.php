@@ -1,6 +1,6 @@
 
 
-<div class="modal" style=" padding-bottom: 0px; margin-left: 150px; margin-right: 150px; margin-top: 50px; margin-bottom: 90px; border-radius: 9px ;background: white; " id="contactModal" >
+<div class="modal" id="contactModal"  style=" padding-bottom: 0px; margin-left: 150px; margin-right: 150px; margin-top: 50px; margin-bottom: 90px; border-radius: 9px ;background: white; " >
 
     <!-- ================ contact section start ================= -->
 

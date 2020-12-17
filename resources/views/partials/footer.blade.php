@@ -21,38 +21,27 @@
 
                  <div class="col-lg-2 col-md-4 col-sm-7">
                      <div class="single-footer-caption mb-50">
-                         <div class="footer-tittle">
-                             <h4>Support</h4>
-                             <ul>
-                                 <li><a href="#">Report a bug</a></li>
 
-                                 <li><a href="#">Terms & Conditions</a></li>
+                           <h4>Contact details</h4>
+                           <ul style="co">
+                               <li><a href="mailto:ambkyusya@gmail.com"><p>ambkyusya@gmail.com</p> </a></li>
+                               <li><a href="tel:0723799317"> <p>0723799317</p> </a></li>
+                           </ul>
 
-                                 <li><a href="#">FAQs</a></li>
-                             </ul>
-                         </div>
+
+
+
+
                      </div>
                  </div>
                  <div class="col-lg-3 col-md-6 col-sm-8">
                      <div class="single-footer-caption mb-50">
-                         <div class="footer-tittle">
-                             <h4>Newsletter</h4>
-                             <div class="footer-pera footer-pera2">
-                              <p>Join our subscription list to get notified of new features</p>
-                          </div>
-                          <!-- Form -->
-                          <div class="footer-form">
-                              <div id="mc_embed_signup">
-                                  <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscribe_form relative mail_part" novalidate="true">
-                                      <input type="email" name="EMAIL" id="newsletter-form-email" placeholder=" Email Address " class="placeholder hide-on-focus" onfocus="this.placeholder = ''" onblur="this.placeholder = ' Email Address '">
-                                      <div class="form-icon">
-                                          <button type="submit" name="submit" id="newsletter-submit" class="email_icon newsletter-submit button-contactForm"><img src="assets/img/shape/form_icon.png" alt=""></button>
-                                      </div>
-                                      <div class="mt-10 info"></div>
-                                  </form>
-                              </div>
-                          </div>
-                         </div>
+
+                       <h4>Support</h4>
+                       <ul>
+                           <li><a data-toggle = "modal" data-target = "#contactModal" >Report a bug</a></li>
+                       </ul>
+
                      </div>
                  </div>
              </div>

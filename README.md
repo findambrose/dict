@@ -1,3 +1,3 @@
-#Maana.
+# Maana.
 
-A USSD based dictionary application. 
+A USSD based dictionary application.
