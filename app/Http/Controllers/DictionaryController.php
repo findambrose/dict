@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facade\Http;
+use Illuminate\Support\Facades\Http;
 use App\Models\User;
 use AfricasTalking\SDK\AfricasTalking;
+use App\Helpers\SMS;
+use App\Helpers\Search;
+use App\Helpers;
 
 class DictionaryController extends Controller
 {
-    //
+   use Helpers\Menu;
     function session()
     {
       // code...
@@ -22,6 +25,7 @@ class DictionaryController extends Controller
       $levelCount = count($level);
       $users = new User();
 
+
 //first is to check if user is registered or not
  if ($users->where('phone', $phone)->exists()) {
    $this->handleReturnUsers($level, $levelCount, $users, $phone);
@@ -32,19 +36,7 @@ class DictionaryController extends Controller
 } //end of mainsession Function
 
 
-function sendSMS($message, $phone){
 
-  $username = 'sandbox';
-  $key = '1c69c9a7a5bf058bcaf59a5f695a1e915a0351e6d5c55e8edc398d81084dab6e';
-  $africasTalking = new AfricasTalking($username, $key);
-  $smsService = $africasTalking->sms();
-  $result = $smsService->send([
-    'to'=> $phone,
-    'message' => $message,
-    'from' => 'Maana Free'
-  ]);
-  return $result;
-}
 //start of support functions
     public function handleNewUsers($level, $levelCount, $phone, $users){
       //sign them up
@@ -59,18 +51,11 @@ function sendSMS($message, $phone){
         $response = "You will receive an SMS with more info about us.";
         //end connection
         //send sms logic
-
-
-        try {
-          $result =  $this->sendSMS("We are a totally free USSD dictionary. Meaning that \n
+          $sms = new SMS();
+          $sms->sendSMS("We are a totally free USSD dictionary. Meaning that \n
           you do not need any internet connection to look a word'/s' \n
           meaning.", $phone);
-        } catch (\Exception $e) {
-          echo "AfricasTalking Error: ". $e->message;
-        }
-
-
-        echo $response;
+          echo $response;
 
       }
 
@@ -86,13 +71,11 @@ function sendSMS($message, $phone){
 
        $this->register($userDetails[0], $phone, $userDetails[1], $users);
        return;
+       $menu = new Menu();
+       $menu->registerMenu();
       }
 
-      $response = "Welcome to our Maana. A free dictionary.\n" ;
-      $response .=  "1. Create an account\n";
-      $response .= "2. Get information about us";
-      $response .=  "3. Exit";
-      echo $response;
+
 
     }
 
@@ -128,10 +111,9 @@ function sendSMS($message, $phone){
           //1. Get search word
           $term = $level[2];
           //2. Make api request usign the word
-          // TODO:
 
-          echo "Response from Api call";
-          echo $term;
+
+          $this->getMeaning($term);
         }
 
         return;
@@ -143,23 +125,14 @@ function sendSMS($message, $phone){
 
       return;
       }
-      $this->mainMenu();
+      $menu = new Menu();
+      $menu->mainMenu();
 
       //login
       //take to display services screen
     }
-    public function mainMenu(){ //for registered users
-      $response = "Welcome to our Maana. A free dictionary.\n" ;
-      $response .=  "1. Login\n";
-      $response .=  "2. Exit";
-      echo $response;
-    }
-    public function servicesMenu(){
-      $response = "Welcome to our Maana. A free dictionary.\n" ;
-      $response .=  "1. Enter Word To Search\n";
-      $response .=  "2. Exit";
-      echo $response;
-    }
+
+
     public function login($usersEnteredPin, $users, $phoneNumber){
       //login user with pin
 
@@ -167,7 +140,8 @@ function sendSMS($message, $phone){
 
       if ($usersActualPin == $usersEnteredPin) {
         // login user in. i.e show services menu
-        $this->servicesMenu();
+        $menu = new Menu();
+        $menu->servicesMenu();
         return 'success';
       }
       else {
@@ -183,13 +157,9 @@ function sendSMS($message, $phone){
         $users->pin = $pin;
         $users->phone = $phoneNumber;
         $users->save();
-
-        try {
-          $result =  $this->sendSMS("Hello, ".$name. ". Your Account has been successfully created. You will recieve free promotional
+          $sms = new SMS();
+          $sms->sendSMS("Hello, ".$name. ". Your Account has been successfully created. You will recieve free promotional
           as well as educative messages from us occassionally.", $phoneNumber);
-        } catch (\Exception $e) {
-          echo "AfricasTalking Error: ". $e->getMessage();
-        }
 
       $this->servicesMenu();
     }
@@ -205,36 +175,44 @@ function sendSMS($message, $phone){
 
     function getMeaning($searchTerm){
      //Get word meaning using Oxford dixtionary api
-      $apiKey = 'f01ae30e9ec36e96fbde8b6c5304e1b0';
-      $appId = 'bc6fd222';
-      $url = 'https://od-api.oxforddictionaries.com/api/v2/entries/en/'.$searchTerm;
-      $response = Http::withHeaders(
-        ['app_id' => $appId,
-	       'app_key' => $apiKey
-        ]
-        )->get($url);
+     $searchInstance = new Search();
+     $resultObject = $searchInstance->searchMeaning($searchTerm);
 
-      $resultObject = json_decode($response->body());
       $myResults =  $resultObject->results;
       $entriesObj =  $myResults[0]->lexicalEntries[0]->entries[0];
-      $pronounciation = $entriesObj->pronounciations[0]->phoneticSpelling;
+      $pronounciation = $entriesObj->pronunciations[0]->phoneticSpelling;
       $meaning = $entriesObj->senses[0]->definitions[0];
       $example = $entriesObj->senses[0]->examples[0]->text;
-      $synonymsListofObjects = $entriesObj->senses[0]->synonyms; //loop through synonyms to get individual objects
+      if (!empty($entriesObj->senses[0]->synonyms)) {
+        $synonymsListofObjects = $entriesObj->senses[0]->synonyms;
+      }
+    //  $synonymsListofObjects = $entriesObj->senses[0]->synonyms; //loop through synonyms to get individual objects
       $synonymsString = "";
       if (!empty($synonymsListofObjects)) {
         $counter = 0;
         foreach ($synonymsListofObjects as $value) {
-          $synonymsString .= $value->text.", ";
+          $arrayCount = count($synonymsListofObjects);
+
+          if ($arrayCount - 1 > $counter) {
+            // Append a full stop on the last value
+            $synonymsString .= $value->text.", ";
+          }
           if (count($synonymsListofObjects) == ++$counter) {
             // Append a full stop on the last value
             $synonymsString .= $value->text.".";
           }
         }
       }
+      else {
+        $synonymsString = "No synonyms found for the word.";
 
-      $responseToUser =  "1. Meaning: ".$meaning.". \n";
+      }
+
+      $responseToUser =  "1. Meaning: ".ucfirst($meaning).". \n";
       $responseToUser .= "2. Pronounciation: ".$pronounciation.". \n";
-      $responseToUser .= "3. Synonyms: ".$synonymsString." \n";
+      $responseToUser .= "3. Synonyms: ".ucfirst($synonymsString)." \n";
+      $responseToUser .= "4. Example: ".ucfirst($example).".";
+
+      echo $responseToUser;
     }
 }
