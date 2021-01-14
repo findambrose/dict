@@ -8,8 +8,8 @@ class SMS {
 
   function sendSMS($message, $phone){
 
-    $username = config(africastalking.username);
-    $key = config(africastalking.key);
+    $username = config('africastalking.username');
+    $key = config('africastalking.key');
     $africasTalking = new AfricasTalking($username, $key);
     $smsService = $africasTalking->sms();
 
@@ -20,7 +20,7 @@ class SMS {
         'from' => 'Maana Free'
       ]);
     } catch (\Exception $e) {
-     echo "Error is : ".$e.getMessage();
+     \Log::error("Error is : ".$e->getMessage()); 
     }
   //  echo json_encode($result);
   }
