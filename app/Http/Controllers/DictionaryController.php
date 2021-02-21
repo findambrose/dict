@@ -161,9 +161,6 @@ public $menu;
         $users->pin = $pin;
         $users->phone = $phoneNumber;
         $users->save();
-
-
-        echo "CON User saved";
           $sms = new SMS();
           $sms->sendSMS("Hello, ".$name. ". Your Account has been successfully created. You will recieve free promotional
           as well as educative messages from us occassionally.", $phoneNumber);
