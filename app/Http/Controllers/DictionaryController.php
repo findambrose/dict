@@ -1,9 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
-
-
 use App\Models\User;
 use AfricasTalking\SDK\AfricasTalking;
 use App\Helpers\SMS;
@@ -25,7 +22,7 @@ public $menu;
     {
       // code...
       $text = request('text');
-      $phone = request('phone');
+      $phone = request('phoneNumber');
       $networkCode =  request('networkCode');
       $sessionId =  request('sessionId');
       $serviceCode =  request('serviceCode');
@@ -164,6 +161,9 @@ public $menu;
         $users->pin = $pin;
         $users->phone = $phoneNumber;
         $users->save();
+
+
+        echo "CON User saved";
           $sms = new SMS();
           $sms->sendSMS("Hello, ".$name. ". Your Account has been successfully created. You will recieve free promotional
           as well as educative messages from us occassionally.", $phoneNumber);
